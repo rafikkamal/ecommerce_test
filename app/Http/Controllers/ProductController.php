@@ -23,7 +23,7 @@ class ProductController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $products = Product::with('Category')->orderBy('id', 'ASC')->paginate(2);
+        $products = Product::with('Category')->orderBy('id', 'ASC')->paginate(20);
         return view('products.index', ['products' => $products]);
     }
 
@@ -133,16 +133,17 @@ class ProductController extends Controller {
      */
     public function updatePicture(Request $request,$productId) {
         $product = Product::find($productId);
-        $image_id = $product->picture_id;
-        $product_picture = \App\ProductPicture::find($image_id);
-        $picture= $product_picture->title;
+        // $image_id = $product->picture_id;
+        // $product_picture = \App\ProductPicture::find($image_id);
+        // $picture= $product_picture->title;
+        $picture = $product->picture->title;
         $image = $request->file('picture');
-        if ($image) {
+        if ($image && $picture !== "no_image.png") //{
 //            $image_name = $image->getClientOriginalName();
             $image->move('assets/img/', $picture);
-        } else {
-            $image_name = 'no_image.png';
-        }
+//       } else {
+//            $image_name = 'no_image.png';
+//        }
         Session::flash('success', 'The product picture was successfully updated.');
 //        return redirect()->route('products.index');
     }

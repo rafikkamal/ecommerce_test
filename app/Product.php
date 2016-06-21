@@ -12,7 +12,10 @@ class Product extends Model
      */
     protected $fillable = [];
 
-    public function Category() {
+    public function category() {
         return $this->belongsTo('App\Category');
+    }
+    public function picture() {
+        return $this->belongsTo('App\ProductPicture');
     }
 }
