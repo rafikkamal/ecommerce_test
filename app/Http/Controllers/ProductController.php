@@ -152,5 +152,27 @@ class ProductController extends Controller {
             return redirect()->route('products.edit',['product_id' => $productId]);
         }
     }
-
+    
+    /**
+     * Update Product Promo
+     * @return \Illuminate\Http\Response
+     */
+    public function updatePromo(Request $request){
+        $product_id=$request['product_id'];
+        $promo = $request['promo'];
+        $discount = $request['discount'];
+        if($promo==="promo"){
+            $promo_obj = new \App\Promo;
+            $promo_obj->product_id=$product_id;
+            $promo_obj->save();
+            $product = Product::find($product_id);
+            if($product){
+                $product->discount=$discount;
+                $product->save();
+            }
+        }
+        else {
+            
+        }
+    }
 }

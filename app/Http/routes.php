@@ -11,17 +11,19 @@
   |
  */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::auth();
-
+Route::get('/', 'HomeController@welcome');
 Route::get('/home', 'HomeController@index');
 
 Route::resource('products', 'ProductController');
+Route::resource('categories', 'CategoryController');
 
 Route::patch('products/picture/{productId}', [
     'uses' => 'ProductController@updatePicture',
     'as' => 'products.picture'
+]);
+
+Route::post('products/promo', [
+    'uses' => 'ProductController@updatePromo',
+    'as' => 'products.promo'
 ]);
