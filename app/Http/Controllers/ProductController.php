@@ -23,7 +23,7 @@ class ProductController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $products = Product::with('Category')->orderBy('id', 'ASC')->paginate(2);
+        $products = Product::with('Category')->orderBy('id', 'ASC')->paginate(20);
         return view('products.index', ['products' => $products]);
     }
 
@@ -131,20 +131,26 @@ class ProductController extends Controller {
      * @param  int  $productId
      * @return \Illuminate\Http\Response
      */
-    public function updatePicture(Request $request,$productId) {
+    public function updatePicture(Request $request, $productId) {
         $product = Product::find($productId);
-        $image_id = $product->picture_id;
-        $product_picture = \App\ProductPicture::find($image_id);
-        $picture= $product_picture->title;
+        $picture = $product->picture->title;
         $image = $request->file('picture');
         if ($image) {
-//            $image_name = $image->getClientOriginalName();
-            $image->move('assets/img/', $picture);
-        } else {
-            $image_name = 'no_image.png';
+            if ($picture !== 'no_image.png') {
+                $image->move('assets/img/', $picture);
+            } else {
+                $image_name = $image->getClientOriginalName();
+                $image->move('assets/img/', $image_name);
+                $product_picture = \App\ProductPicture::find($product->picture_id);
+                $product_picture->title = $image_name;
+                $product_picture->save();
+            }
+            Session::flash('success', 'The product picture was successfully updated.');
+            return redirect()->route('products.index');
         }
-        Session::flash('success', 'The product picture was successfully updated.');
-//        return redirect()->route('products.index');
+        else{
+            return redirect()->route('products.edit',['product_id' => $productId]);
+        }
     }
 
 }
