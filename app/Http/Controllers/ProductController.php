@@ -131,21 +131,48 @@ class ProductController extends Controller {
      * @param  int  $productId
      * @return \Illuminate\Http\Response
      */
-    public function updatePicture(Request $request,$productId) {
+    public function updatePicture(Request $request, $productId) {
         $product = Product::find($productId);
-        // $image_id = $product->picture_id;
-        // $product_picture = \App\ProductPicture::find($image_id);
-        // $picture= $product_picture->title;
         $picture = $product->picture->title;
         $image = $request->file('picture');
-        if ($image && $picture !== "no_image.png") //{
-//            $image_name = $image->getClientOriginalName();
-            $image->move('assets/img/', $picture);
-//       } else {
-//            $image_name = 'no_image.png';
-//        }
-        Session::flash('success', 'The product picture was successfully updated.');
-//        return redirect()->route('products.index');
+        if ($image) {
+            if ($picture !== 'no_image.png') {
+                $image->move('assets/img/', $picture);
+            } else {
+                $image_name = $image->getClientOriginalName();
+                $image->move('assets/img/', $image_name);
+                $product_picture = \App\ProductPicture::find($product->picture_id);
+                $product_picture->title = $image_name;
+                $product_picture->save();
+            }
+            Session::flash('success', 'The product picture was successfully updated.');
+            return redirect()->route('products.index');
+        }
+        else{
+            return redirect()->route('products.edit',['product_id' => $productId]);
+        }
     }
-
+    
+    /**
+     * Update Product Promo
+     * @return \Illuminate\Http\Response
+     */
+    public function updatePromo(Request $request){
+        $product_id=$request['product_id'];
+        $promo = $request['promo'];
+        $discount = $request['discount'];
+        if($promo==="promo"){
+            $promo_obj = new \App\Promo;
+            $promo_obj->product_id=$product_id;
+            $promo_obj->save();
+            $product = Product::find($product_id);
+            if($product){
+                $product->discount=$discount;
+                $product->save();
+            }
+        }
+        else {
+            
+        }
+    }
 }
