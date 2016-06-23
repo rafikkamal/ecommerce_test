@@ -12,7 +12,8 @@
  */
 
 Route::auth();
-Route::get('/', 'HomeController@welcome');
+//Route::get('/', 'HomeController@welcome');
+Route::get('/', 'StoreController@home');
 Route::get('/home', 'HomeController@index');
 
 Route::resource('products', 'ProductController');
