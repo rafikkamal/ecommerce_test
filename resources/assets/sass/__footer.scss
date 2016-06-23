@@ -1,0 +1,26 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jun 23, 2016, 1:58:54 PM
+    Author     : Rafik
+*/
+
+$background : black;
+$padding : 50px;
+$offset : 20px;
+
+.seperator{
+    min-height: $offset;
+}
+
+footer{
+    background:$background;    
+    padding-top:$padding - $offset;
+    padding-bottom:$padding - $offset;
+    position:absolute;
+    bottom:0;
+    width:100%;
+}

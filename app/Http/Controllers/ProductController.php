@@ -169,6 +169,7 @@ class ProductController extends Controller {
             if($product){
                 $product->discount=$discount;
                 $product->save();
+                return redirect()->route('products.index');
             }
         }
         else {

@@ -13,7 +13,7 @@ class StoreController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function home() {
-        $promos = \App\Promo::with('Product')->orderBy('created_at', 'ASC')->paginate(4);
+        $promos = \App\Promo::with('Product')->orderBy('created_at', 'ASC')->paginate(20);
         return view('welcome', ['promos' => $promos]);
     }
     
@@ -37,7 +37,7 @@ class StoreController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function showLatest() {
+    public function showBestSeller() {
         
     }
     

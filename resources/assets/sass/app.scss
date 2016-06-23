@@ -1,4 +1,32 @@
 // @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
+@import "__footer";
+
+html{
+    min-height: 100%;
+    position:relative;
+}
+body{
+    background-color:lighten($background,70%);
+    padding-bottom: 200px;
+}
 .navbar{margin-bottom: 0px;}
 
+.home-page{
+    background:white;
+}
+.home-page .product-img{
+    height:150px;
+    width:200px;
+    display:block;
+}
+.home-page span{
+    display:block;
+}
+.home-page > .row{
+    padding-top:30px;
+    padding-bottom:30px;
+}
+.home-page > .row h1,h2,h3{
+    margin-bottom: 20px;
+}
