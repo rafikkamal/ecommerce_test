@@ -110,29 +110,59 @@
 
 <div class="container-fluid home-page">
     <div class="row">
-        <h2 class="text-center">Promotional Product</h2>
+        <h2 class="text-center">Promotional Product</h2><hr/>
         @foreach($promos as $promo)
-        <div class="col-sm-3 col-lg-2">
+        <div class="col-sm-3 col-lg-2 promo-display-product">
+            @if($promo->product->discount != 0.0)
+            <span class="promo-discount">{{ $promo->product->discount }}%</span>
+            @endif
             <img src="assets/img/{{ $promo->product->picture->title}}" alt="img" class="img-thumbnail product-img"/>
-            <h3>{{ $promo->product->title }}</h3>
-            <span>{{ $promo->product->category->title }}</span>
-            <span>{{ $promo->product->description }}</span>
-            <span>Price : ${{ $promo->product->price }}</span>
-            <span>Discount : {{ $promo->product->discount }}%</span>
-            <button class="btn btn-success btn-block">Add To Cart</button>
+            <span class="promo-product-title">{{ $promo->product->title }}</span>
+            <span class="promo-product-info">{{ $promo->product->category->title }}</span>
+            <span class="promo-product-info">{{ $promo->product->description }}</span>
+            <span class="promo-product-info">Price : ${{ $promo->product->price }}</span>
+            @if($promo->product->stock > 0)
+            <span class="promo-product-info-available">Availability : In Stock</span>
+            @else
+            <span class="promo-product-info-available-not">Availability : Out Of Stock</span>
+            @endif
+            {{ Form::open(array('url' => '', 'method' => 'put', 'class'=>'home-cart-add')) }}
+            {{ Form::hidden('promo_product_id',$promo->product->id) }}
+            {{ Form::selectRange('promo-quantity', 1, 10,null,array('class'=>'promo-quantity'))}}
+            {{ Form::submit('Add To Cart',array('class'=>'btn btn-success btn-cart'))}}
+            {{ Form::close() }}
         </div>
         @endforeach 
     </div> 
+
+    <hr/>
     <div class="row">
-        <h2 class="text-center">Latest Product</h2>
+        <h2 class="text-center">Latest Product</h2><hr/>
         @foreach($promos as $promo)
-        <div class="col-sm-3  col-lg-2">
+        <div class="col-sm-3 col-lg-2 promo-display-product">
+            @if($promo->product->discount != 0.0)
+            <span class="promo-discount">{{ $promo->product->discount }}%</span>
+            @endif
             <img src="assets/img/{{ $promo->product->picture->title}}" alt="img" class="img-thumbnail product-img"/>
-            <h4>{{ $promo->product->title }}</h4>
-            {{ $promo->product->category->title }}
+            <span class="promo-product-title">{{ $promo->product->title }}</span>
+            <span class="promo-product-info">{{ $promo->product->category->title }}</span>
+            <span class="promo-product-info">{{ $promo->product->description }}</span>
+            <span class="promo-product-info">Price : ${{ floatval($promo->product->price) }}</span>
+            @if($promo->product->stock > 0)
+            <span class="promo-product-info-available">Availability : In Stock</span>
+            @else
+            <span class="promo-product-info-available-not">Availability : Out Of Stock</span>
+            @endif
+            {{ Form::open(array('url' => '', 'method' => 'put', 'class'=>'home-cart-add')) }}
+            {{ Form::hidden('promo_product_id',$promo->product->id) }}
+            {{ Form::selectRange('promo-quantity', 1, 10,null,array('class'=>'promo-quantity'))}}
+            {{ Form::submit('Add To Cart',array('class'=>'btn btn-success btn-cart'))}}
+            {{ Form::close() }}
         </div>
         @endforeach
     </div>
+
+    <hr/>
 </div>
 @endsection
 
